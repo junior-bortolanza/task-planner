@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./usuario
+        working-directory: ./agendador-tarefas
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
