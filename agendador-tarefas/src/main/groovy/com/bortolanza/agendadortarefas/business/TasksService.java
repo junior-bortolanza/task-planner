@@ -7,9 +7,11 @@ import com.bortolanza.agendadortarefas.infrastructure.enums.StatusNotificationEn
 import com.bortolanza.agendadortarefas.infrastructure.repository.TasksRepository;
 import com.bortolanza.agendadortarefas.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +30,17 @@ public class TasksService {
         TasksEntity entity = tasksConverter.forTaskEntity(dto);
 
         return tasksConverter.forTaskDTO(tasksRepository.save(entity));
+    }
+
+    public List<TasksDTO> SearchScheduledTasksByPeriod(LocalDateTime initialDate, LocalDateTime finalDate) {
+        return tasksConverter.forListTasksDTO(
+                tasksRepository.findByEventDateBetween(initialDate, finalDate));
+    }
+
+    public List<TasksDTO> searchTasksByEmail(String token) {
+        String email = jwtUtil.extractEmailToken(token.substring(7));
+        List<TasksEntity> tasks = tasksRepository.findByUserEmail(email);
+
+        return tasksConverter.forListTasksDTO(tasks);
     }
 }
