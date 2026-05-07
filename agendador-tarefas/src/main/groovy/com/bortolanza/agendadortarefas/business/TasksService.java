@@ -34,9 +34,9 @@ public class TasksService {
         return tasksConverter.forTaskDTO(tasksRepository.save(entity));
     }
 
-    public List<TasksDTO> searchScheduledTasksByPeriod(LocalDateTime initialDate, LocalDateTime finalDate) {
+    public List<TasksDTO> SearchScheduledTasksByPeriod(LocalDateTime initialDate, LocalDateTime finalDate) {
         return tasksConverter.forListTasksDTO(
-                tasksRepository.findByEventDateBetweenAndStatusNotificationEnum(initialDate, finalDate, StatusNotificationEnum.PENDING));
+                tasksRepository.findByEventDateBetween(initialDate, finalDate));
     }
 
     public List<TasksDTO> searchTasksByEmail(String token) {
