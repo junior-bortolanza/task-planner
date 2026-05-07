@@ -32,7 +32,7 @@ public class TasksController {
     public ResponseEntity<List<TasksDTO>> searchListTasksForPeriod(
             @RequestParam("initialDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime initialDate,
             @RequestParam("finalDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime finalDate) {
-        return ResponseEntity.ok(tasksService.SearchScheduledTasksByPeriod(initialDate, finalDate));
+        return ResponseEntity.ok(tasksService.searchScheduledTasksByPeriod(initialDate, finalDate));
     }
 
     @GetMapping
