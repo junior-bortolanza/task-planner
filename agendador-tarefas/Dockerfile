@@ -1,17 +1,10 @@
-FROM  gradle:8.10-jdk21 AS build
-
+FROM gradle:8.14-jdk21 AS build
 WORKDIR /app
-
 COPY . .
+RUN gradle clean build -x test --no-daemon
 
-RUN mvn clean install -DskipTests
-
-FROM openjdk:21-jdk-alpine
-
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-
-COPY --from=build /app/build/libs/agendador-tarefas-0.0.1-SNAPSHOT.jar /app/agendador-tarefas.jar
-
+COPY --from=build /app/build/libs/*.jar /app/agendador-tarefas.jar
 EXPOSE 8081
-
 CMD ["java", "-jar", "/app/agendador-tarefas.jar"]
